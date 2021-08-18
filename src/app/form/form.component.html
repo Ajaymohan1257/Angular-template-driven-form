@@ -1,0 +1,74 @@
+
+<div class="container">
+    <form class="form" #form="ngForm" (ngSubmit)="onSubmit(form)" [hidden]="submitted">
+        <h3 class="text-secondary">Registeration Form</h3>
+
+        <div class="form-group mt-3">
+            <label for="name"><strong>Name</strong></label>
+            <input type="text" id="name" class="form-control" name="name" [(ngModel)]="model.name" required minlength="3" #name="ngModel">
+            <div *ngIf="name.invalid && name.touched">
+                <div *ngIf="name.errors?.required" class="text-danger">Enter the name</div>
+                <div *ngIf="name.errors?.minlength" class="text-danger">Name must contain atleast 3 characters</div>
+            </div>
+        </div>
+
+        <div class="form-group mt-3">
+            <label for="email"><strong>Email</strong></label>
+            <input type="email" id="email" class="form-control" name="email" [(ngModel)]="model.email" email required #email="ngModel">
+            <div *ngIf="email.invalid && email.touched">
+                <div *ngIf="email.errors?.required" class="text-danger">Enter the email</div>
+                <div *ngIf="email.errors && !email.errors?.required" class="text-danger">Enter a valid email address</div>
+            </div>
+        </div>
+
+        <div class="form-check-inline mt-3">
+            <label for="gender"><strong>Gender</strong></label>
+            <div *ngFor="let g of genders">
+                <input type="radio" class="form-check-input" name="g" id="gender" [(ngModel)]="model.gender" [value]="g">
+                <label class="form-check-label" for="g">{{g}}</label>
+                
+            </div>
+        </div>
+
+        <div class="form-group mt-3">
+            <label for="city"><strong>City</strong></label>
+            <input type="text" id="city" class="form-control" name="city" [(ngModel)]="model.city">
+        </div>
+
+        <div class="form-group mt-3">
+            <label for="course"><strong>Course</strong></label> 
+            <select name="course" id="course" class="form-control" name="course" [(ngModel)]="model.course" required #course="ngModel">
+                <option [ngValue]="null">---Select---</option>
+                <option *ngFor="let c of courses" [value]="c">
+                    {{c}}
+                </option>
+            </select>
+            <div [hidden]="course.valid || course.untouched" class="text-danger">
+                Select the course
+            </div>
+        </div>
+
+        <div class="form-group mt-3">
+            <input type="checkbox" class="form-check-input" id="terms" name="terms" [(ngModel)]="model.terms" required #terms="ngModel">
+            <label for="terms" class="form-check-label mx-3"><strong>Terms and Conditions</strong></label>
+            <div [hidden]="terms.valid || terms.untouched" class="text-danger">
+                Please accept the terms and conditions
+            </div>
+        </div>
+
+        <button class="btn btn-primary mt-3" [disabled]="form.invalid">Submit</button>
+
+    </form>
+
+    <div [hidden]="!submitted">
+        <h3 class="text-success">Your form submitted successfully...</h3>
+        <br>
+        <h6 class="text-secondary">Your Course Registration details</h6>
+        <br>
+        <p>Student Name: {{form.value.name}}</p>
+        <p>Student Email: {{form.value.email}}</p>
+        <p>Student Course: {{form.value.course}}</p>
+    </div>
+</div>
+
+
